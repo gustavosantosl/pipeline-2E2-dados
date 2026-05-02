@@ -1,0 +1,72 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Environment / secrets
+.env
+.env.*
+*.env
+
+# Data files (não commitar dados brutos)
+data/raw/
+data-raw/
+data/
+*.csv
+*.parquet
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+*.whl
+
+# Testing / coverage
+.pytest_cache/
+.mypy_cache/
+.coverage
+coverage/
+htmlcov/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDEs / editors
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs, temp
+*.log
+logs/
+*.tmp
+*.swp
+*.bak
+
+# Databases
+*.sqlite3
+*.db
+
+# dbt
+target/
+dbt_modules/
+dbt_packages/
+
+# Others
+*.so
+*.dll
+*.pdb
+
