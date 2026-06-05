@@ -2,6 +2,8 @@ version: 2
 
 sources:
   - name: olist_raw
-    schema: main  
+    schema: main
     tables:
       - name: raw_orders
+      - name: raw_customers
+      - name: raw_products
