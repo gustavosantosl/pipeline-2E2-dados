@@ -8,4 +8,6 @@ sources:
       - name: raw_customers
       - name: raw_products
       - name: raw_order_items  
-      - name: raw_payments     
+      - name: raw_payments    
+      - name: raw_reviews
+      - name: raw_sellers 
