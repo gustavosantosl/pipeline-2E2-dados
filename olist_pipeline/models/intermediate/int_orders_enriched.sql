@@ -8,6 +8,7 @@ customers AS (
 
 SELECT 
     orders.order_id,
+    orders.purchased_at,
     orders.order_status,
     customers.cidade_cliente,
     customers.estado_cliente
