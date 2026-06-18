@@ -1,0 +1,16 @@
+version: 2
+
+models:
+  - name: mart_sales_summary
+    description: >
+      Sumariza a receita total e o volume de pedidos por mês e por categoria de produto.
+      Granularidade: Uma linha por mês por categoria.
+    columns:
+      - name: mes
+        description: "Ano e mês da venda no formato YYYY-MM."
+      - name: categoria
+        description: "Nome traduzido da categoria do produto."
+      - name: total_pedidos
+        description: "Quantidade de pedidos únicos realizados no período."
+      - name: receita_total
+        description: "Faturamento bruto gerado no período (soma do preço dos itens)."

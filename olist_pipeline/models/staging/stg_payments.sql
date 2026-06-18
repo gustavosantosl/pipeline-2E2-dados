@@ -9,3 +9,4 @@ SELECT
   payment_installments AS parcelas,
   payment_value AS valor_pagamento
 FROM source
+WHERE payment_value > 0
