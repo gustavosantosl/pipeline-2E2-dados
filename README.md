@@ -22,16 +22,9 @@ O pipeline de transformação foi construído utilizando **dbt Core** acoplado a
 * **Staging:** Primeira camada do dbt. Responsável por limpeza de dados sujos (ex: `COALESCE`), tipagem correta de colunas (`CAST`) e padronização de nomenclatura.
 * **Intermediate:** Camada de cruzamento e aplicação de regras de negócio simples, preparando o terreno para a camada analítica final.
 
-### Grafo de Linhagem (Lineage Graph)
+### Grafo de Linhagem Completo (DAG)
 
-Abaixo está a representação visual (DAG) do fluxo de dados que compõe a nossa primeira entidade enriquecida:
-
-```text
-[ Sources ]                [ Staging ]                  [ Intermediate ]
-
-raw_orders      -------->  stg_orders      ---\
-                                               |----->  int_orders_enriched
-raw_customers   -------->  stg_customers   ---/
+![Lineage Graph dbt](./img/lineage_completo.png)
 
 raw_order_items -------->  stg_order_items
 raw_payments    -------->  stg_payments
