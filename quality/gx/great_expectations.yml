@@ -1,4 +1,3 @@
-
 # Welcome to Great Expectations! Always know what to expect from your data.
 #
 # Here you can define datasources, batch kwargs generators, integrations and
@@ -9,11 +8,7 @@
 
 # config_version refers to the syntactic version of this config file, and is used in maintaining backwards compatibility
 # It is auto-generated and usually does not need to be changed.
-config_version: 3
-
-# Datasources tell Great Expectations where your data lives and how to get it.
-# Read more at https://docs.greatexpectations.io/docs/guides/connecting_to_your_data/connect_to_data_overview
-datasources: {}
+config_version: 4.0
 
 # This config file supports variable substitution which enables: 1) keeping
 # secrets out of source control & 2) environment-based configuration changes
@@ -43,26 +38,17 @@ stores:
 # Stores are configurable places to store things like Expectations, Validations
 # Data Docs, and more. These are for advanced users only - most users can simply
 # leave this section alone.
-#
-# Three stores are required: expectations, validations, and
-# evaluation_parameters, and must exist with a valid store entry. Additional
-# stores can be configured for uses such as data_docs, etc.
   expectations_store:
     class_name: ExpectationsStore
     store_backend:
       class_name: TupleFilesystemStoreBackend
       base_directory: expectations/
 
-  validations_store:
-    class_name: ValidationsStore
+  validation_results_store:
+    class_name: ValidationResultsStore
     store_backend:
       class_name: TupleFilesystemStoreBackend
       base_directory: uncommitted/validations/
-
-  evaluation_parameter_store:
-    # Evaluation Parameters enable dynamic expectations. Read more here:
-    # https://docs.greatexpectations.io/docs/reference/evaluation_parameters/
-    class_name: EvaluationParameterStore
 
   checkpoint_store:
     class_name: CheckpointStore
@@ -71,16 +57,14 @@ stores:
       suppress_store_backend_id: true
       base_directory: checkpoints/
 
-  profiler_store:
-    class_name: ProfilerStore
+  validation_definition_store:
+    class_name: ValidationDefinitionStore
     store_backend:
       class_name: TupleFilesystemStoreBackend
-      suppress_store_backend_id: true
-      base_directory: profilers/
+      base_directory: validation_definitions/
 
 expectations_store_name: expectations_store
-validations_store_name: validations_store
-evaluation_parameter_store_name: evaluation_parameter_store
+validation_results_store_name: validation_results_store
 checkpoint_store_name: checkpoint_store
 
 data_docs_sites:
@@ -90,13 +74,47 @@ data_docs_sites:
   # profiles from the uncommitted directory. Read more at https://docs.greatexpectations.io/docs/terms/data_docs
   local_site:
     class_name: SiteBuilder
-    # set to false to hide how-to buttons in Data Docs
     show_how_to_buttons: true
     store_backend:
-        class_name: TupleFilesystemStoreBackend
-        base_directory: uncommitted/data_docs/local_site/
+      class_name: TupleFilesystemStoreBackend
+      base_directory: uncommitted/data_docs/local_site/
     site_index_builder:
-        class_name: DefaultSiteIndexBuilder
-
-anonymous_usage_statistics:
-  enabled: True
+      class_name: DefaultSiteIndexBuilder
+fluent_datasources:
+  olist_duckdb:
+    type: sql
+    id: 7c12273a-29e0-4585-8b3f-481fdb36b348
+    assets:
+      raw_orders:
+        type: query
+        id: d944f731-8473-4ddd-9d80-64f0c30cd6cf
+        batch_metadata: {}
+        batch_definitions:
+          raw_orders_batch:
+            id: 61afec9e-2e61-4650-8376-ac016f3fff9f
+            partitioner:
+        query: SELECT * FROM raw_orders
+      raw_orders_table_test:
+        type: table
+        id: 79cdc728-f6a7-4f52-ae8b-a63ffa04e35c
+        batch_metadata: {}
+        batch_definitions:
+          raw_orders_table_test_batch:
+            id: cab72d5a-dcac-4c43-8875-7e1e09eb852f
+            partitioner:
+        table_name: raw_orders
+    connection_string: duckdb:///../data/olist.duckdb
+  olist_pandas:
+    type: pandas
+    id: c35c925c-342c-4b10-8d5a-dab9e19b24a5
+    assets:
+      raw_orders:
+        type: dataframe
+        id: 23d03892-804a-47c7-b41e-89615f33cf7f
+        batch_metadata: {}
+        batch_definitions:
+          raw_orders_batch:
+            id: b6433307-7559-4f2b-a4ad-5406dca3fd1b
+            partitioner:
+analytics_enabled:
+data_context_id: 431ee6d7-a1fa-4257-9c43-8c68b9b96b50

@@ -1,0 +1,19 @@
+{
+  "expectations": [
+    {
+      "id": "40c721d0-5c7e-4e1d-9683-e0fa7d01764f",
+      "kwargs": {
+        "column": "order_id"
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    }
+  ],
+  "id": "ac53af29-ed7f-47ea-82ee-c1826e25e6b2",
+  "meta": {
+    "great_expectations_version": "1.18.1"
+  },
+  "name": "teste_isolado_suite",
+  "notes": null
+}

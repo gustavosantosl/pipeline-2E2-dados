@@ -1,0 +1,37 @@
+{
+  "expectations": [
+    {
+      "id": "9d269b5d-9e4d-4fbe-8dee-df051712a396",
+      "kwargs": {
+        "column": "order_id"
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_to_exist"
+    },
+    {
+      "id": "6277bded-36fc-4301-bb48-abc3a5b04af6",
+      "kwargs": {
+        "column": "order_id"
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "a4cd54a0-5e2a-457e-a24e-d90751cd25f4",
+      "kwargs": {
+        "column": "order_id"
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_be_unique"
+    }
+  ],
+  "id": "2efdc02a-aa5c-4948-99af-7162c27547b9",
+  "meta": {
+    "great_expectations_version": "1.18.1"
+  },
+  "name": "orders_suite",
+  "notes": null
+}
