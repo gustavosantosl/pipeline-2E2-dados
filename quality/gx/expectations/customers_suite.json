@@ -1,7 +1,7 @@
 {
   "expectations": [
     {
-      "id": "0104704f-7238-4450-8068-376d8305bdcd",
+      "id": "bd2a722b-1007-491e-a1ac-a9bb886fb88e",
       "kwargs": {
         "column": "customer_id"
       },
@@ -10,7 +10,7 @@
       "type": "expect_column_values_to_be_unique"
     },
     {
-      "id": "2e71c1c8-f3c9-4f5d-8188-b82bf1f6fd5e",
+      "id": "85cbad73-16a0-4bf2-8384-98d522bc5cbf",
       "kwargs": {
         "column": "customer_state",
         "value": 2.0

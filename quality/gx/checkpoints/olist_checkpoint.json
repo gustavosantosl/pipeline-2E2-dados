@@ -1,0 +1,20 @@
+{
+  "actions": [],
+  "id": "8f32522c-ae4e-4ea5-a382-a400a16297e5",
+  "name": "olist_checkpoint",
+  "result_format": "SUMMARY",
+  "validation_definitions": [
+    {
+      "id": "fa4885ab-cd75-4cba-8048-f61eecd8d238",
+      "name": "vd_orders"
+    },
+    {
+      "id": "7281ecb0-6d6c-4865-acc3-c0667d61b1d5",
+      "name": "vd_customers"
+    },
+    {
+      "id": "571ad463-fad6-4941-90bc-520ee01ebaed",
+      "name": "vd_products"
+    }
+  ]
+}

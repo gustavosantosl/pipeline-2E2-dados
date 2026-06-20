@@ -68,7 +68,7 @@ except Exception:
 
 # Regra Products
 # Regra Products com tolerância de 95%
-suite_prod.add_expectation(gx.expectations.ExpectColumnValuesToNotBeNull(column="product_category_name", mostly=0.95))
+suite_prod.add_expectation(gx.expectations.ExpectColumnValuesToNotBeNull(column="product_category_name", mostly=0.97))
 suite_prod.save()
 res_prod = batch_def_prod.get_batch(batch_parameters={"dataframe": df_products}).validate(suite_prod)
 print(f"✅ Products passou: {res_prod.success}")

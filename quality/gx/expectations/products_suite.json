@@ -1,10 +1,10 @@
 {
   "expectations": [
     {
-      "id": "0607252a-3d21-467e-9d40-c6dfea7e8d50",
+      "id": "3e31174c-88c6-4003-b2af-0f08108d63f3",
       "kwargs": {
         "column": "product_category_name",
-        "mostly": 0.95
+        "mostly": 0.97
       },
       "meta": {},
       "severity": "critical",
