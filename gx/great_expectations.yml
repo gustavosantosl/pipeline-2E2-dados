@@ -1,3 +1,4 @@
+
 # Welcome to Great Expectations! Always know what to expect from your data.
 #
 # Here you can define datasources, batch kwargs generators, integrations and
@@ -8,7 +9,7 @@
 
 # config_version refers to the syntactic version of this config file, and is used in maintaining backwards compatibility
 # It is auto-generated and usually does not need to be changed.
-config_version: 4.0
+config_version: 4
 
 # This config file supports variable substitution which enables: 1) keeping
 # secrets out of source control & 2) environment-based configuration changes
@@ -74,71 +75,10 @@ data_docs_sites:
   # profiles from the uncommitted directory. Read more at https://docs.greatexpectations.io/docs/terms/data_docs
   local_site:
     class_name: SiteBuilder
+    # set to false to hide how-to buttons in Data Docs
     show_how_to_buttons: true
     store_backend:
-      class_name: TupleFilesystemStoreBackend
-      base_directory: uncommitted/data_docs/local_site/
+        class_name: TupleFilesystemStoreBackend
+        base_directory: uncommitted/data_docs/local_site/
     site_index_builder:
-      class_name: DefaultSiteIndexBuilder
-fluent_datasources:
-  olist_duckdb:
-    type: sql
-    id: 7c12273a-29e0-4585-8b3f-481fdb36b348
-    assets:
-      raw_orders:
-        type: query
-        id: d944f731-8473-4ddd-9d80-64f0c30cd6cf
-        batch_metadata: {}
-        batch_definitions:
-          raw_orders_batch:
-            id: 61afec9e-2e61-4650-8376-ac016f3fff9f
-            partitioner:
-        query: SELECT * FROM raw_orders
-      raw_orders_table_test:
-        type: table
-        id: 79cdc728-f6a7-4f52-ae8b-a63ffa04e35c
-        batch_metadata: {}
-        batch_definitions:
-          raw_orders_table_test_batch:
-            id: cab72d5a-dcac-4c43-8875-7e1e09eb852f
-            partitioner:
-        table_name: raw_orders
-    connection_string: duckdb:///../data/olist.duckdb
-  olist_pandas:
-    type: pandas
-    id: c35c925c-342c-4b10-8d5a-dab9e19b24a5
-    assets:
-      raw_orders:
-        type: dataframe
-        id: 23d03892-804a-47c7-b41e-89615f33cf7f
-        batch_metadata: {}
-        batch_definitions:
-          raw_orders_batch:
-            id: b6433307-7559-4f2b-a4ad-5406dca3fd1b
-            partitioner:
-  ds_customers:
-    type: pandas
-    id: 7a9d0dd3-582c-4e40-b5e8-020103e81867
-    assets:
-      raw_customers:
-        type: dataframe
-        id: 2819f2b6-df0a-45a4-a52d-501dbe6857b2
-        batch_metadata: {}
-        batch_definitions:
-          batch_cust:
-            id: d4d8fe02-42da-4613-916f-84f4fad0d9d2
-            partitioner:
-  ds_products:
-    type: pandas
-    id: 7689de2e-c96d-4305-8ea3-39517a8d4011
-    assets:
-      raw_products:
-        type: dataframe
-        id: 40cb39b1-d7af-4c0c-bd2e-50ee0e894046
-        batch_metadata: {}
-        batch_definitions:
-          batch_prod:
-            id: 57be073e-f986-42e8-bffd-f6f4a7d67dfd
-            partitioner:
-analytics_enabled:
-data_context_id: 431ee6d7-a1fa-4257-9c43-8c68b9b96b50
+        class_name: DefaultSiteIndexBuilder

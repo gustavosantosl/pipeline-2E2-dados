@@ -1,0 +1,20 @@
+{
+  "expectations": [
+    {
+      "id": "0607252a-3d21-467e-9d40-c6dfea7e8d50",
+      "kwargs": {
+        "column": "product_category_name",
+        "mostly": 0.95
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    }
+  ],
+  "id": "6d31191f-f085-46f9-9882-3c6f89544b4f",
+  "meta": {
+    "great_expectations_version": "1.18.1"
+  },
+  "name": "products_suite",
+  "notes": null
+}
