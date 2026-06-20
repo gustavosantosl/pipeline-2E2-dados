@@ -36,4 +36,4 @@ raw_sellers     -------->  stg_sellers
 
 Validação automatizada com Great Expectations, cobrindo as tabelas `raw_orders`, `raw_customers` e `raw_products`.
 
-![Data Docs - resultado das validações](caminho/para/data_docs_sucesso.png)
+![Data Docs - resultado das validações](img/data_docs_sucesso.png)
