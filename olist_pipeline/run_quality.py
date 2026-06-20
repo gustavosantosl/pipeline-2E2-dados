@@ -48,13 +48,13 @@ def run_quality_checks():
     passou_tudo = all(resultados.values())
 
     if not passou_tudo:
-        print("❌ FALHA NA QUALIDADE DE DADOS!")
+        print("FALHA NA QUALIDADE DE DADOS!")
         for nome_suite, sucesso in resultados.items():
             status = "✅ PASSOU" if sucesso else "❌ FALHOU"
             print(f"  -> {nome_suite}: {status}")
         sys.exit(1)
 
-    print(f"✅ Qualidade OK: {resultados}")
+    print(f"Qualidade OK: {resultados}")
     return True
 
 
