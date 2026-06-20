@@ -31,3 +31,9 @@ raw_payments    -------->  stg_payments
 raw_reviews     -------->  stg_reviews
 raw_products    -------->  stg_products
 raw_sellers     -------->  stg_sellers
+
+## Qualidade de Dados
+
+Validação automatizada com Great Expectations, cobrindo as tabelas `raw_orders`, `raw_customers` e `raw_products`.
+
+![Data Docs - resultado das validações](caminho/para/data_docs_sucesso.png)
