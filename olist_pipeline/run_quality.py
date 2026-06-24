@@ -16,37 +16,38 @@ def run_quality_checks():
 
     logger.info("Iniciando validação de qualidade de dados...")
 
-    # Recupera os Data Sources, Assets e Batch Definitions já criados
-    ds_orders = context.data_sources.get("olist_pandas")
-    ds_cust = context.data_sources.get("ds_customers")
-    ds_prod = context.data_sources.get("ds_products")
+    try:
+        ds_orders = context.data_sources.get("olist_pandas")
+        ds_cust = context.data_sources.get("ds_customers")
+        ds_prod = context.data_sources.get("ds_products")
 
-    asset_orders = ds_orders.get_asset("raw_orders")
-    asset_cust = ds_cust.get_asset("raw_customers")
-    asset_prod = ds_prod.get_asset("raw_products")
+        asset_orders = ds_orders.get_asset("raw_orders")
+        asset_cust = ds_cust.get_asset("raw_customers")
+        asset_prod = ds_prod.get_asset("raw_products")
 
-    batch_def_orders = asset_orders.get_batch_definition("raw_orders_batch")
-    batch_def_cust = asset_cust.get_batch_definition("batch_cust")
-    batch_def_prod = asset_prod.get_batch_definition("batch_prod")
+        batch_def_orders = asset_orders.get_batch_definition("raw_orders_batch")
+        batch_def_cust = asset_cust.get_batch_definition("batch_cust")
+        batch_def_prod = asset_prod.get_batch_definition("batch_prod")
 
-    suite_orders = context.suites.get("orders_suite")
-    suite_cust = context.suites.get("customers_suite")
-    suite_prod = context.suites.get("products_suite")
+        vd_orders = context.validation_definitions.get("vd_orders")
+        vd_cust = context.validation_definitions.get("vd_customers")
+        vd_prod = context.validation_definitions.get("vd_products")
+    except Exception as e:
+        logger.exception("Falha ao carregar configuração do Great Expectations: %s", e)
+        raise
 
-    vd_orders = context.validation_definitions.get("vd_orders")
-    vd_cust = context.validation_definitions.get("vd_customers")
-    vd_prod = context.validation_definitions.get("vd_products")
-
-    # Carrega os dados atuais
-    con = duckdb.connect(db_path, read_only=True)
-    df_orders = con.execute("SELECT * FROM raw_orders").df()
-    df_cust = con.execute("SELECT * FROM raw_customers").df()
-    df_prod = con.execute("SELECT * FROM raw_products").df()
-    con.close()
+    try:
+        con = duckdb.connect(db_path, read_only=True)
+        df_orders = con.execute("SELECT * FROM raw_orders").df()
+        df_cust = con.execute("SELECT * FROM raw_customers").df()
+        df_prod = con.execute("SELECT * FROM raw_products").df()
+        con.close()
+    except Exception as e:
+        logger.exception("Falha ao carregar dados do DuckDB: %s", e)
+        raise
 
     logger.info("Dados carregados, iniciando validações...")
 
-    # Roda as 3 validações
     res_orders = vd_orders.run(batch_parameters={"dataframe": df_orders})
     res_cust = vd_cust.run(batch_parameters={"dataframe": df_cust})
     res_prod = vd_prod.run(batch_parameters={"dataframe": df_prod})

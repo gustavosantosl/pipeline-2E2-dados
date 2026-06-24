@@ -31,8 +31,13 @@ logger.info("Iniciando ingestão...")
 
 for table, filename in files.items():
     csv_path = os.path.join(data_raw_path, filename).replace("\\", "/")
-    con.execute(f"CREATE OR REPLACE TABLE {table} AS SELECT * FROM read_csv_auto('{csv_path}')")
-    logger.info("%s: OK", table)
+    try:
+        con.execute(f"CREATE OR REPLACE TABLE {table} AS SELECT * FROM read_csv_auto('{csv_path}')")
+        logger.info("%s: OK", table)
+    except Exception as e:
+        logger.exception("Falha ao carregar tabela %s: %s", table, e)
+        con.close()
+        raise
 
 logger.info("Ingestão concluída: %d tabelas carregadas", len(files))
 con.close()

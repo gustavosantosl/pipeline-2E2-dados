@@ -72,3 +72,5 @@ dbt_packages/
 
 logs/
 olist_pipeline/logs/
+
+test_load_falha.py
