@@ -70,3 +70,5 @@ dbt_packages/
 *.dll
 *.pdb
 
+logs/
+olist_pipeline/logs/

@@ -1,10 +1,20 @@
+import os
+import sys
 import duckdb
 import great_expectations as gx
-import sys
+from logger import get_logger
+
+logger = get_logger(__name__)
 
 
 def run_quality_checks():
-    context = gx.get_context(context_root_dir="../quality/gx")
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    gx_path = os.path.join(script_dir, "..", "quality", "gx")
+    db_path = os.path.join(script_dir, "..", "data", "olist.duckdb")
+
+    context = gx.get_context(context_root_dir=gx_path)
+
+    logger.info("Iniciando validação de qualidade de dados...")
 
     # Recupera os Data Sources, Assets e Batch Definitions já criados
     ds_orders = context.data_sources.get("olist_pandas")
@@ -28,11 +38,13 @@ def run_quality_checks():
     vd_prod = context.validation_definitions.get("vd_products")
 
     # Carrega os dados atuais
-    con = duckdb.connect(r"../data/olist.duckdb", read_only=True)
+    con = duckdb.connect(db_path, read_only=True)
     df_orders = con.execute("SELECT * FROM raw_orders").df()
     df_cust = con.execute("SELECT * FROM raw_customers").df()
     df_prod = con.execute("SELECT * FROM raw_products").df()
     con.close()
+
+    logger.info("Dados carregados, iniciando validações...")
 
     # Roda as 3 validações
     res_orders = vd_orders.run(batch_parameters={"dataframe": df_orders})
@@ -48,13 +60,13 @@ def run_quality_checks():
     passou_tudo = all(resultados.values())
 
     if not passou_tudo:
-        print("FALHA NA QUALIDADE DE DADOS!")
+        logger.error("FALHA NA QUALIDADE DE DADOS!")
         for nome_suite, sucesso in resultados.items():
-            status = "✅ PASSOU" if sucesso else "❌ FALHOU"
-            print(f"  -> {nome_suite}: {status}")
+            status = "PASSOU" if sucesso else "FALHOU"
+            logger.error("  -> %s: %s", nome_suite, status)
         sys.exit(1)
 
-    print(f"Qualidade OK: {resultados}")
+    logger.info("Qualidade OK: %s", resultados)
     return True
 
 
