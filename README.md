@@ -38,10 +38,24 @@ Validação automatizada com Great Expectations, cobrindo as tabelas `raw_orders
 
 ![Data Docs - resultado das validações](img/data_docs_sucesso.png)
 
-## Insights de Negócio (via Marts dbt)
+## 📊 Insights de Negócio (Storytelling com Dados)
 
-1. **Pico de receita**: novembro/2017 foi o mês de maior faturamento (R$ 1.010.271), provavelmente puxado por Black Friday — e os meses seguintes mantêm patamar próximo, indicando crescimento sustentado.
-2. **Baixa recorrência**: apenas 3,1% dos clientes fizeram mais de uma compra. É o achado mais crítico da análise — sugere forte oportunidade de estratégia de retenção.
-3. **Categorias-chave**: Beleza & Saúde lidera em receita, mas Relógios & Presentes se destaca por ticket médio elevado (receita similar com metade dos pedidos).
-4. **Satisfação**: 57% das avaliações são nota 5, mas há um grupo relevante de insatisfação (11% nota 1) que merece investigação.
-5. **Concentração geográfica**: São Paulo responde por quase 3x a receita do segundo estado (Rio de Janeiro), reforçando o peso do mercado paulista.
+Após a construção das marts analíticas via dbt, extraímos os seguintes comportamentos do dataset da Olist:
+
+1. **Sazonalidade e Pico de Receita:** O mês de maior faturamento histórico foi Novembro de 2017 (R$ 1.010.271,37). Isolando o dia 24/11 (Black Friday), confirmamos a causa: o volume de pedidos nesse único dia (1.176) foi mais de 6x superior à média diária do resto do mês (~188 pedidos/dia) — com ticket médio praticamente estável (R$ 152 vs R$ 159), o que indica que o pico foi puxado por volume de compradores, não por tickets mais caros.
+2. **Desafio de Retenção:** Uma taxa alarmante de **96,9%** da base é composta por clientes de "compra única". Apenas 3,1% são recorrentes, indicando um alto Custo de Aquisição de Clientes (CAC) e necessidade de estratégias de fidelização.
+3. **Curva ABC de Categorias:** O faturamento é liderado pelos setores de *Beleza & Saúde* (R$ 1.25M), *Relógios & Presentes* (R$ 1.20M) e *Cama, Mesa & Banho* (R$ 1.03M).
+4. **Concentração Geográfica:** O eixo Sudeste domina completamente o e-commerce. O estado de São Paulo (SP) sozinho gerou mais de R$ 6 milhões em receita, sendo quase três vezes maior que o segundo colocado (RJ).
+5. **Satisfação Polarizada:** A base de clientes possui uma altíssima concentração de notas máximas (54.970 avaliações nota 5), porém a segunda maior concentração de avaliações está no extremo oposto (10.807 notas 1). Os dados atuais não indicam a causa exata dessa insatisfação, mas é uma hipótese comum em e-commerce que esteja associada a problemas logísticos (atraso ou extravio de entrega) — uma investigação com dados de status de entrega poderia confirmar isso.
+
+### Tecnologias
+
+| Ferramenta | Versão | Função |
+|---|---|---|
+| Python | 3.12.7 | Linguagem principal |
+| DuckDB | 1.5.2 | Banco de dados analítico embutido |
+| dbt-core | 1.11.8 | Transformação SQL em camadas |
+| dbt-duckdb | 1.10.1 | Adapter dbt para DuckDB |
+| Great Expectations | 1.18.1 | Validação de qualidade de dados |
+| pandas | 3.0.2 | Manipulação de dados em memória |
+| Make (GNU Make) | — | Automação de comandos via Makefile |
