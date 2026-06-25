@@ -37,3 +37,11 @@ raw_sellers     -------->  stg_sellers
 Validação automatizada com Great Expectations, cobrindo as tabelas `raw_orders`, `raw_customers` e `raw_products`.
 
 ![Data Docs - resultado das validações](img/data_docs_sucesso.png)
+
+## Insights de Negócio (via Marts dbt)
+
+1. **Pico de receita**: novembro/2017 foi o mês de maior faturamento (R$ 1.010.271), provavelmente puxado por Black Friday — e os meses seguintes mantêm patamar próximo, indicando crescimento sustentado.
+2. **Baixa recorrência**: apenas 3,1% dos clientes fizeram mais de uma compra. É o achado mais crítico da análise — sugere forte oportunidade de estratégia de retenção.
+3. **Categorias-chave**: Beleza & Saúde lidera em receita, mas Relógios & Presentes se destaca por ticket médio elevado (receita similar com metade dos pedidos).
+4. **Satisfação**: 57% das avaliações são nota 5, mas há um grupo relevante de insatisfação (11% nota 1) que merece investigação.
+5. **Concentração geográfica**: São Paulo responde por quase 3x a receita do segundo estado (Rio de Janeiro), reforçando o peso do mercado paulista.
