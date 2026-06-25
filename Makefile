@@ -16,7 +16,7 @@ docs:
 	cd olist_pipeline && dbt docs generate
 
 clean:
-	rm -f data/olist.duckdb
+	-del /F data\olist.duckdb
 
 help:
 	@echo "make ingest    - carrega CSVs no DuckDB"
