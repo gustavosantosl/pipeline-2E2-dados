@@ -1,3 +1,21 @@
+[![Python](https://img.shields.io/badge/Python-3.12-blue)](https://www.python.org/)
+[![dbt](https://img.shields.io/badge/dbt-1.11-orange)](https://www.getdbt.com/)
+[![DuckDB](https://img.shields.io/badge/DuckDB-1.5-yellow)](https://duckdb.org/)
+[![Great Expectations](https://img.shields.io/badge/Great%20Expectations-1.18-blueviolet)](https://greatexpectations.io/)
+
+# Pipeline de Dados — Olist E-Commerce
+
+Pipeline completo de engenharia de dados: ingestão, validação de qualidade, transformação em camadas e geração de insights de negócio, usando a base pública de e-commerce da Olist.
+
+## Como rodar (2 passos)
+
+\`\`\`bash
+pip install -r requirements.txt
+make pipeline
+\`\`\`
+
+Isso executa, em sequência: ingestão dos CSVs → validação de qualidade (Great Expectations) → transformação em camadas (dbt) → geração da documentação.
+
 ## Dataset
 
 Os dados utilizados são do Kaggle:
@@ -52,3 +70,14 @@ Após a construção das marts analíticas via dbt, extraímos os seguintes comp
 | Great Expectations | 1.18.1 | Validação de qualidade de dados |
 | pandas | 3.0.2 | Manipulação de dados em memória |
 | Make (GNU Make) | — | Automação de comandos via Makefile |
+
+### O que aprendi
+
+- **Versões de ferramentas não são detalhe**: o maior desafio do projeto não foi escrever as regras de qualidade, foi descobrir que o material de referência usava Great Expectations 0.18.x, enquanto meu ambiente (alinhado ao DuckDB moderno exigido pelo dbt) usava GX 1.x — uma API completamente diferente.
+- **Nem todo erro tem traceback claro**: a incompatibilidade entre `duckdb_engine` e o DuckDB moderno gerava falhas silenciosas (validações retornando `False` sem motivo aparente) — aprendi a isolar a causa testando camada por camada, até confirmar que migrar a estratégia para validação via Pandas (em vez de SQL direto) resolvia o problema na raiz.
+- **Caminhos relativos quebram silenciosamente**: scripts que funcionam quando chamados de uma pasta falham quando chamados de outra (ex: via orquestrador). A solução foi sempre calcular caminhos a partir da localização do próprio arquivo (`os.path.abspath(__file__)`), não da pasta de onde o terminal foi aberto.
+- **Pipeline defensivo evita problemas silenciosos**: validar qualidade *antes* de transformar, e fazer o processo parar (`sys.exit(1)`) em caso de falha, é uma escolha de design simples que evita que dado ruim se propague sem ser notado.
+
+## Versão
+
+A versão estável e funcional do pipeline está marcada com a tag [`v1.0`](https://github.com/gustavosantosl/pipeline-2E2-dados/releases/tag/v1.0).
