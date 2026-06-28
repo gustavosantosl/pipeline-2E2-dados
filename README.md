@@ -9,12 +9,12 @@ Pipeline completo de engenharia de dados: ingestão, validação de qualidade, t
 
 ## Como rodar (2 passos)
 
-\`\`\`bash
+```bash
 pip install -r requirements.txt
 make pipeline
-\`\`\`
+```
 
-Isso executa, em sequência: ingestão dos CSVs → validação de qualidade (Great Expectations) → transformação em camadas (dbt) → geração da documentação.
+Isso executa, em sequência: ingestão dos CSVs, validação de qualidade (Great Expectations), transformação em camadas (dbt) e geração da documentação.
 
 ## Dataset
 
@@ -53,11 +53,11 @@ Validação automatizada com Great Expectations, cobrindo as tabelas `raw_orders
 
 Após a construção das marts analíticas via dbt, extraímos os seguintes comportamentos do dataset da Olist:
 
-1. **Sazonalidade e Pico de Receita:** O mês de maior faturamento histórico foi Novembro de 2017 (R$ 1.010.271,37). Isolando o dia 24/11 (Black Friday), confirmamos a causa: o volume de pedidos nesse único dia (1.176) foi mais de 6x superior à média diária do resto do mês (~188 pedidos/dia) — com ticket médio praticamente estável (R$ 152 vs R$ 159), o que indica que o pico foi puxado por volume de compradores, não por tickets mais caros.
+1. **Sazonalidade e Pico de Receita:** O mês de maior faturamento histórico foi Novembro de 2017 (R$ 1.010.271,37). Isolando o dia 24/11 (Black Friday), confirmamos a causa: o volume de pedidos nesse único dia (1.176) foi mais de 6x superior à média diária do resto do mês (~188 pedidos/dia), com ticket médio praticamente estável (R$ 152 vs R$ 159), o que indica que o pico foi puxado por volume de compradores, não por tickets mais caros.
 2. **Desafio de Retenção:** Uma taxa alarmante de **96,9%** da base é composta por clientes de "compra única". Apenas 3,1% são recorrentes, indicando um alto Custo de Aquisição de Clientes (CAC) e necessidade de estratégias de fidelização.
 3. **Curva ABC de Categorias:** O faturamento é liderado pelos setores de *Beleza & Saúde* (R$ 1.25M), *Relógios & Presentes* (R$ 1.20M) e *Cama, Mesa & Banho* (R$ 1.03M).
 4. **Concentração Geográfica:** O eixo Sudeste domina completamente o e-commerce. O estado de São Paulo (SP) sozinho gerou mais de R$ 6 milhões em receita, sendo quase três vezes maior que o segundo colocado (RJ).
-5. **Satisfação Polarizada:** A base de clientes possui uma altíssima concentração de notas máximas (54.970 avaliações nota 5), porém a segunda maior concentração de avaliações está no extremo oposto (10.807 notas 1). Os dados atuais não indicam a causa exata dessa insatisfação, mas é uma hipótese comum em e-commerce que esteja associada a problemas logísticos (atraso ou extravio de entrega) — uma investigação com dados de status de entrega poderia confirmar isso.
+5. **Satisfação Polarizada:** A base de clientes possui uma altíssima concentração de notas máximas (54.970 avaliações nota 5), porém a segunda maior concentração de avaliações está no extremo oposto (10.807 notas 1). Os dados atuais não indicam a causa exata dessa insatisfação, mas é uma hipótese comum em e-commerce que esteja associada a problemas logísticos (atraso ou extravio de entrega). Uma investigação com dados de status de entrega poderia confirmar isso.
 
 ### Tecnologias
 
@@ -73,10 +73,13 @@ Após a construção das marts analíticas via dbt, extraímos os seguintes comp
 
 ### O que aprendi
 
-- **Versões de ferramentas não são detalhe**: o maior desafio do projeto não foi escrever as regras de qualidade, foi descobrir que o material de referência usava Great Expectations 0.18.x, enquanto meu ambiente (alinhado ao DuckDB moderno exigido pelo dbt) usava GX 1.x — uma API completamente diferente.
-- **Nem todo erro tem traceback claro**: a incompatibilidade entre `duckdb_engine` e o DuckDB moderno gerava falhas silenciosas (validações retornando `False` sem motivo aparente) — aprendi a isolar a causa testando camada por camada, até confirmar que migrar a estratégia para validação via Pandas (em vez de SQL direto) resolvia o problema na raiz.
-- **Caminhos relativos quebram silenciosamente**: scripts que funcionam quando chamados de uma pasta falham quando chamados de outra (ex: via orquestrador). A solução foi sempre calcular caminhos a partir da localização do próprio arquivo (`os.path.abspath(__file__)`), não da pasta de onde o terminal foi aberto.
-- **Pipeline defensivo evita problemas silenciosos**: validar qualidade *antes* de transformar, e fazer o processo parar (`sys.exit(1)`) em caso de falha, é uma escolha de design simples que evita que dado ruim se propague sem ser notado.
+**Versões de ferramentas não são detalhe**: o maior desafio do projeto não foi escrever as regras de qualidade, foi descobrir que o material de referência usava Great Expectations 0.18.x, enquanto meu ambiente (alinhado ao DuckDB moderno exigido pelo dbt) usava GX 1.x, uma API completamente diferente.
+
+**Nem todo erro tem traceback claro**: a incompatibilidade entre `duckdb_engine` e o DuckDB moderno gerava falhas silenciosas (validações retornando `False` sem motivo aparente). Aprendi a isolar a causa testando camada por camada, até confirmar que migrar a estratégia para validação via Pandas, em vez de SQL direto, resolvia o problema na raiz.
+
+**Caminhos relativos quebram silenciosamente**: scripts que funcionam quando chamados de uma pasta falham quando chamados de outra (ex: via orquestrador). A solução foi sempre calcular caminhos a partir da localização do próprio arquivo (`os.path.abspath(__file__)`), não da pasta de onde o terminal foi aberto.
+
+**Pipeline defensivo evita problemas silenciosos**: validar qualidade *antes* de transformar, e fazer o processo parar (`sys.exit(1)`) em caso de falha, é uma escolha de design simples que evita que dado ruim se propague sem ser notado.
 
 ## Versão
 
